@@ -24,5 +24,7 @@ public class Cell {
         possibleVals[i-1] = false;
     }
 
-
+    public int getVal() {
+        return val;
+    }
 }

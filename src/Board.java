@@ -1,3 +1,7 @@
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 /**
  * Created by ostk on 01/06/15.
  */
@@ -14,6 +18,41 @@ public class Board {
 
     }
 
+    //fills the board with values from a file
+    public void fill(String file){
+        int n=0, m=0;
+        try {
+            //open a file
+            FileInputStream fileInput = new FileInputStream(file);
+
+            //loop through the board
+            for(int i=0; i<9; i++){
+                for(int j=0; j<9; j++){
+
+                    int num= fileInput.read(); //read the next character
+
+                    if(num=='\n'){ //ignore newline characters
+                        j--;
+                        continue;
+                    }
+
+                    num=num-'0'; //convert char to int
+                    if(num>0){
+                        board[i][j].set(num);
+                    }
+                }
+            }
+
+            fileInput.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    //sets the value of a specified cell
     public void setCell(int value, int i, int j){
         board[i][j].set(value);
     }
@@ -103,5 +142,16 @@ public class Board {
         }
 
         return coord;
+    }
+
+    public String toString(){
+        String s = "";
+        for(int i=0; i<9; i++){
+            for(int j=0; j<9; j++){
+                s = s + board[i][j].getVal();
+            }
+            s = s + '\n';
+        }
+        return s;
     }
 }
